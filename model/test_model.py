@@ -1,7 +1,7 @@
 import torch
 from torch.autograd import Variable
 from .base_model import BaseModel
-from . import network, network_old
+from . import network
 from util import util
 from collections import OrderedDict
 
@@ -17,7 +17,6 @@ class TestModel(BaseModel):
         self.loss_names = []
         self.visual_names =['img_s', 'img_t', 'img_s2t', 'lab_t_g']
         self.model_names = ['img2task', 's2t']
-        # self.model_names = ['image2depth','syn2real']
 
         # define the transform network
         self.net_s2t = network.define_G(opt.image_nc, opt.image_nc, opt.ngf, opt.transform_layers, opt.norm,
@@ -27,13 +26,6 @@ class TestModel(BaseModel):
         self.net_img2task = network.define_G(opt.image_nc, opt.label_nc, opt.ngf, opt.task_layers, opt.norm,
                                              opt.activation, opt.task_model_type, opt.init_type, opt.drop_rate,
                                              False, opt.gpu_ids, opt.U_weight)
-
-        # self.net_s2t = network_old.define_TransNet(opt.image_nc, opt.image_nc, opt.ngf, 6,
-        #                                               opt.norm, False, opt.init_type, opt.gpu_ids)
-        #
-        # # define the prediction network
-        # self.net_img2task = network_old.define_TaskNet(opt.image_nc, opt.label_nc, opt.ngf, 4, opt.norm,
-        #                                           False, opt.init_type, opt.gpu_ids)
 
         self.load_networks(opt.which_epoch)
 

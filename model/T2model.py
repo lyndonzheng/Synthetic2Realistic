@@ -4,7 +4,7 @@ import itertools
 from util.image_pool import ImagePool
 import util.task as task
 from .base_model import BaseModel
-from . import network, network_old
+from . import network
 
 class T2NetModel(BaseModel):
     def name(self):
@@ -30,12 +30,6 @@ class T2NetModel(BaseModel):
                                             opt.activation, opt.task_model_type, opt.init_type, opt.drop_rate,
                                             False, opt.gpu_ids, opt.U_weight)
 
-        # self.net_s2t = network_old.define_TransNet(opt.image_nc, opt.image_nc, opt.ngf, 6,
-        #                                               opt.norm, False, opt.init_type, opt.gpu_ids)
-        #
-        # # define the prediction network
-        # self.net_img2task = network_old.define_TaskNet(opt.image_nc, opt.label_nc, opt.ngf,4, opt.norm,
-        #                                           False, opt.init_type, opt.gpu_ids)
         # define the discriminator
         if self.isTrain:
             self.net_img_D = network.define_D(opt.image_nc, opt.ndf, opt.image_D_layers, opt.num_D, opt.norm,
