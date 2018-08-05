@@ -142,66 +142,6 @@ def define_featureD(input_nc, n_layers=2, norm='batch', activation='PReLU', init
 # Basic Operation
 ######################################################################################
 
-def l2normalize(v, eps=1e-12):
-    return v / (v.norm() + eps)
-
-class SpectralNorm(nn.Module):
-    def __init__(self, module, name='weight', power_iterations=1):
-        super(SpectralNorm, self).__init__()
-        self.module = module
-        self.name = name
-        self.power_iterations = power_iterations
-        if not self._made_params():
-            self._make_params()
-
-    def _update_u_v(self):
-        u = getattr(self.module, self.name + "_u")
-        v = getattr(self.module, self.name + "_v")
-        w = getattr(self.module, self.name + "_bar")
-
-        height = w.data.shape[0]
-        for _ in range(self.power_iterations):
-            v.data = l2normalize(torch.mv(torch.t(w.view(height,-1).data), u.data))
-            u.data = l2normalize(torch.mv(w.view(height,-1).data, v.data))
-
-        # sigma = torch.dot(u.data, torch.mv(w.view(height,-1).data, v.data))
-        sigma = u.dot(w.view(height, -1).mv(v))
-        setattr(self.module, self.name, w / sigma.expand_as(w))
-
-    def _made_params(self):
-        try:
-            u = getattr(self.module, self.name + "_u")
-            v = getattr(self.module, self.name + "_v")
-            w = getattr(self.module, self.name + "_bar")
-            return True
-        except AttributeError:
-            return False
-
-
-    def _make_params(self):
-        w = getattr(self.module, self.name)
-
-        height = w.data.shape[0]
-        width = w.view(height, -1).data.shape[1]
-
-        u = torch.nn.Parameter(w.data.new(height).normal_(0, 1), requires_grad=False)
-        v = torch.nn.Parameter(w.data.new(width).normal_(0, 1), requires_grad=False)
-        u.data = l2normalize(u.data)
-        v.data = l2normalize(v.data)
-        w_bar = torch.nn.Parameter(w.data)
-
-        del self.module._parameters[self.name]
-
-        self.module.register_parameter(self.name + "_u", u)
-        self.module.register_parameter(self.name + "_v", v)
-        self.module.register_parameter(self.name + "_bar", w_bar)
-
-
-    def forward(self, *args):
-        self._update_u_v()
-        return self.module.forward(*args)
-
-
 class GaussianNoiseLayer(nn.Module):
     def __init__(self):
         super(GaussianNoiseLayer, self).__init__()
@@ -211,6 +151,7 @@ class GaussianNoiseLayer(nn.Module):
             return x
         noise = Variable((torch.randn(x.size()).cuda(x.data.get_device()) - 0.5) / 10.0)
         return x+noise
+
 
 class _InceptionBlock(nn.Module):
     def __init__(self, input_nc, output_nc, norm_layer=nn.BatchNorm2d, nonlinearity=nn.PReLU(), width=1, drop_rate=0, use_bias=False):
@@ -365,7 +306,7 @@ class _ResGenerator(nn.Module):
             nonlinearity
         ]
 
-        n_downsampling = 2
+        n_downsampling = 1
         mult = 1
         for i in range(n_downsampling):
             mult_prev = mult
@@ -632,7 +573,7 @@ class _Discriminator(nn.Module):
             use_bias = norm_layer == nn.InstanceNorm2d
 
         model = [
-            SpectralNorm(nn.Conv2d(input_nc, ndf, kernel_size=4, stride=2, padding=1, bias=use_bias)),
+            nn.Conv2d(input_nc, ndf, kernel_size=4, stride=2, padding=1, bias=use_bias),
             nonlinearity,
         ]
 
@@ -641,7 +582,7 @@ class _Discriminator(nn.Module):
             nf_mult_prev = nf_mult
             nf_mult = min(2**i, 8)
             model += [
-                SpectralNorm(nn.Conv2d(ndf*nf_mult_prev, ndf*nf_mult, kernel_size=4, stride=2, padding=1, bias=use_bias)),
+                nn.Conv2d(ndf*nf_mult_prev, ndf*nf_mult, kernel_size=4, stride=2, padding=1, bias=use_bias),
                 norm_layer(ndf*nf_mult),
                 nonlinearity,
             ]
@@ -649,10 +590,10 @@ class _Discriminator(nn.Module):
         nf_mult_prev = nf_mult
         nf_mult = min(2 ** n_layers, 8)
         model += [
-            SpectralNorm(nn.Conv2d(ndf * nf_mult_prev, ndf * nf_mult, kernel_size=4, stride=1, padding=1, bias=use_bias)),
+            nn.Conv2d(ndf * nf_mult_prev, ndf * nf_mult, kernel_size=4, stride=1, padding=1, bias=use_bias),
             norm_layer(ndf * 8),
             nonlinearity,
-            SpectralNorm(nn.Conv2d(ndf*nf_mult, 1, kernel_size=4, stride=1, padding=1))
+            nn.Conv2d(ndf*nf_mult, 1, kernel_size=4, stride=1, padding=1)
         ]
 
         self.model = nn.Sequential(*model)
@@ -676,17 +617,17 @@ class _FeatureDiscriminator(nn.Module):
             use_bias = norm_layer == nn.InstanceNorm2d
 
         model = [
-            SpectralNorm(nn.Linear(input_nc * 40 * 12, input_nc)),
+            nn.Linear(input_nc * 40 * 12, input_nc),
             nonlinearity,
         ]
 
         for i in range(1, n_layers):
             model +=[
-                SpectralNorm(nn.Linear(input_nc, input_nc)),
+                nn.Linear(input_nc, input_nc),
                 nonlinearity
             ]
 
-        model +=[SpectralNorm(nn.Linear(input_nc, 1))]
+        model +=[nn.Linear(input_nc, 1)]
 
         self.model = nn.Sequential(*model)
 

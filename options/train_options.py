@@ -24,13 +24,13 @@ class TrainOptions(BaseOptions):
                                  help='initial learning rate for adam')
         self.parser.add_argument('--lr_trans', type=float, default=5e-5,
                                  help='initial learning rate for discriminator')
-        self.parser.add_argument('--lambda_rec_img', type=float, default=40.0,
+        self.parser.add_argument('--lambda_rec_img', type=float, default=100.0,
                                  help='weight for image reconstruction loss')
         self.parser.add_argument('--lambda_gan_img', type=float, default=1.0,
                                  help='weight for image GAN loss')
         self.parser.add_argument('--lambda_gan_feature', type=float, default=1.0,
                                  help='weight for feature GAN loss')
-        self.parser.add_argument('--lambda_rec_lab', type=float, default=40.0,
+        self.parser.add_argument('--lambda_rec_lab', type=float, default=100.0,
                                  help='weight for task loss')
         self.parser.add_argument('--lambda_smooth', type=float, default=0.1,
                                  help='weight for depth smooth loss')
