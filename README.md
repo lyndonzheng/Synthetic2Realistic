@@ -9,7 +9,7 @@ This repository implements the training and testing of T2Net for "T2Net: Synthet
 
 <img src='Image/image2depth_syn2real_indoor.jpg' align="center">
 
-This repository can be used for training and tesing of
+This repository can be used for training and testing of
 - Unpaired image-to-image Translation
 - Single depth Estimation
 
