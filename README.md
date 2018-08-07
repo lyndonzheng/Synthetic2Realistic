@@ -1,5 +1,5 @@
 # Synthetic2Realistic
-This repository implements the training and testing of T2Net for "T2Net: Synthetic-to-Realistic Translation for Depth Estimation Tasks" by Chuanxia Zheng, [Tat-Jen Cham](http://www.ntu.edu.sg/home/astjcham/) and [Jianfei Cai](http://www.ntu.edu.sg/home/asjfcai/) at NTU. A vedio is available on [YouTube](https://youtu.be/B6lOToIk0xY). The repository offers the original implementation of the paper in Pytoch.
+This repository implements the training and testing of T2Net for "[T2Net: Synthetic-to-Realistic Translation for Depth Estimation Tasks](https://arxiv.org/abs/1808.01454)" by Chuanxia Zheng, [Tat-Jen Cham](http://www.ntu.edu.sg/home/astjcham/) and [Jianfei Cai](http://www.ntu.edu.sg/home/asjfcai/) at NTU. A vedio is available on [YouTube](https://youtu.be/B6lOToIk0xY). The repository offers the original implementation of the paper in Pytoch.
 
 - Outdoor Translation
 
