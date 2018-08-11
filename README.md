@@ -1,5 +1,5 @@
 # Synthetic2Realistic
-This repository implements the training and testing of T2Net for "[T2Net: Synthetic-to-Realistic Translation for Depth Estimation Tasks](https://arxiv.org/abs/1808.01454)" by Chuanxia Zheng, [Tat-Jen Cham](http://www.ntu.edu.sg/home/astjcham/) and [Jianfei Cai](http://www.ntu.edu.sg/home/asjfcai/) at NTU. A vedio is available on [YouTube](https://youtu.be/B6lOToIk0xY). The repository offers the original implementation of the paper in Pytoch.
+This repository implements the training and testing of T2Net for "[T2Net: Synthetic-to-Realistic Translation for Depth Estimation Tasks](https://arxiv.org/abs/1808.01454)" by Chuanxia Zheng, [Tat-Jen Cham](http://www.ntu.edu.sg/home/astjcham/) and [Jianfei Cai](http://www.ntu.edu.sg/home/asjfcai/) at NTU. A video is available on [YouTube](https://youtu.be/B6lOToIk0xY). The repository offers the original implementation of the paper in Pytoch.
 
 - Outdoor Translation
 
@@ -55,13 +55,25 @@ python train.py train.py --name Outdoor_nyu_wsupervised --model wsupervised
 
 ```
 python test.py --name Outdoor_nyu_wsupervised --model test
---img_source_file /export/home/lyndonzheng/dataset/Image2Depth31_KITTI/testA_SYN80
---img_target_file /export/home/lyndonzheng/dataset/Image2Depth31_KITTI/testA
+--img_source_file /dataset/Image2Depth31_KITTI/testA_SYN80
+--img_target_file /dataset/Image2Depth31_KITTI/testA
 ```
 
 ## Trined Models
 
 More trained models will be released
+
+## Citation
+If you use this code for your research, please cite our papers.
+```
+@article{zheng2018t2net,
+  title={T2Net: Synthetic-to-Realistic Translation for Solving Single-Image Depth Estimation Tasks},
+  author={Zheng, Chuanxia and Cham, Tat-Jen and Cai, Jianfei},
+  journal={arXiv preprint arXiv:1808.01454},
+  year={2018}
+}
+
+```
 
 # Acknowledgments
 Code is inspired by [Pytorch-CycleGAN](https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix)
