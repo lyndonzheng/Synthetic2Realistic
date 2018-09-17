@@ -32,7 +32,7 @@ class BaseOptions():
                                  help='training label for target domain')
         self.parser.add_argument('--dataset_mode', type=str, default='paired',
                                  help='chooses how datasets are loaded. [paired| unpaired]')
-        self.parser.add_argument('--loadSize', type=list, default=[640, 192],
+        self.parser.add_argument('--loadSize', type=list, default=[256, 192],
                                  help='load image into same size [256, 192]|[640, 192]')
         self.parser.add_argument('--flip', action='store_true',
                                  help='if specified, do flip the image for data augmentation')
@@ -61,7 +61,7 @@ class BaseOptions():
                                  help='the max channels for image features')
         self.parser.add_argument('--num_D', type=int, default=1,
                                  help='# of number of the discriminator')
-        self.parser.add_argument('--transform_layers', type=int, default=6,
+        self.parser.add_argument('--transform_layers', type=int, default=9,
                                  help='# of number of the down sample layers for transform network')
         self.parser.add_argument('--task_layers', type=int, default=4,
                                  help='# of number of the down sample layers for task network')

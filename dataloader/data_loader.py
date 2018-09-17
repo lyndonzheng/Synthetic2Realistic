@@ -107,7 +107,7 @@ def get_transform(opt, augment):
 
     if augment:
         if opt.isTrain:
-            transforms_list.append(transforms.ColorJitter(brightness=0.2, contrast=0.2, saturation=0.2, hue=0.0))
+            transforms_list.append(transforms.ColorJitter(brightness=0.0, contrast=0.0, saturation=0.0, hue=0.0))
     transforms_list += [
         transforms.ToTensor(), transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
     ]

@@ -103,7 +103,7 @@ class T2NetModel(BaseModel):
         for i in range(size):
             fake.append(self.fake_img_pool.query(self.img_s2t[i]))
         real = task.scale_pyramid(self.img_t, size)
-        self.loss_img_D = self.backward_D_basic(self.net_img_D, real, self.img_s2t)
+        self.loss_img_D = self.backward_D_basic(self.net_img_D, real, fake)
 
     def backward_D_feature(self):
         self.loss_f_D = self.backward_D_basic(self.net_f_D, [self.lab_f_t], [self.lab_f_s])
@@ -209,7 +209,7 @@ class T2NetModel(BaseModel):
         self.optimizer_D.zero_grad()
         self.backward_D_feature()
         self.backward_D_image()
-        if epoch_iter % 1 == 0:
+        if epoch_iter % 5 == 0:
             self.optimizer_D.step()
             for p in self.net_f_D.parameters():
                 p.data.clamp_(-0.01,0.01)
