@@ -63,7 +63,16 @@ python test.py --name Outdoor_nyu_wsupervised --model test
 --img_target_file /dataset/Image2Depth31_KITTI/testA
 ```
 
-## Trined Models
+## Estimation
+- Depth Estimation, the code based on [monodepth](https://github.com/mrharicot/monodepth)
+```
+python evaluation.py --split eigen --file_path ./datasplit/
+--gt_path ''your path''/KITTI/raw_data_KITTI/
+--predicted_depth_path ''your path''/result/KITTI/predicted_depth_vk
+--garg_crop
+```
+
+## Trained Models
 
 The pretrained model for [indoor scene weakly wsupervised](https://drive.google.com/drive/folders/197clhZvX8zHQxZXkkBasrx4SUKyUzscT?usp=sharing).
 
@@ -86,4 +95,3 @@ If you use this code for your research, please cite our papers.
 
 # Acknowledgments
 Code is inspired by [Pytorch-CycleGAN](https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix)
-
