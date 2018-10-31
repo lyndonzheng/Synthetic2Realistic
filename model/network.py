@@ -615,7 +615,7 @@ class _FeatureDiscriminator(nn.Module):
             use_bias = norm_layer == nn.InstanceNorm2d
 
         model = [
-            nn.Linear(input_nc * 16 * 12, input_nc),
+            nn.Linear(input_nc * 40 * 12, input_nc),
             nonlinearity,
         ]
 
@@ -631,7 +631,7 @@ class _FeatureDiscriminator(nn.Module):
 
     def forward(self, input):
         result = []
-        input = input.view(-1, 512 * 16 * 12)
+        input = input.view(-1, 512 * 40 * 12)
         output = self.model(input)
         result.append(output)
         return result

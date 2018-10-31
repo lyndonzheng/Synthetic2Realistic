@@ -32,7 +32,7 @@ class BaseOptions():
                                  help='training label for target domain')
         self.parser.add_argument('--dataset_mode', type=str, default='paired',
                                  help='chooses how datasets are loaded. [paired| unpaired]')
-        self.parser.add_argument('--loadSize', type=list, default=[256, 192],
+        self.parser.add_argument('--loadSize', type=list, default=[640, 192],
                                  help='load image into same size [256, 192]|[640, 192]')
         self.parser.add_argument('--flip', action='store_true',
                                  help='if specified, do flip the image for data augmentation')
@@ -44,7 +44,7 @@ class BaseOptions():
                                  help='if specified, crop the images for data augmentation')
         self.parser.add_argument('--batchSize', type=int, default=6,
                                  help='input batch size')
-        self.parser.add_argument('--nThreads', type=int, default=8,
+        self.parser.add_argument('--nThreads', type=int, default=2,
                                  help='# threads for loading data')
         self.parser.add_argument('--shuffle', action='store_true',
                                  help='if true, takes images randomly')

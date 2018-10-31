@@ -16,8 +16,8 @@ class TestModel(BaseModel):
 
         self.loss_names = []
         self.visual_names =['img_s', 'img_t', 'img_s2t', 'lab_t_g']
-        # self.model_names = ['img2task', 's2t']
-        self.model_names = ['img2task']
+        self.model_names = ['img2task', 's2t']
+        #self.model_names = ['img2task']
 
         # define the transform network
         self.net_s2t = network.define_G(opt.image_nc, opt.image_nc, opt.ngf, opt.transform_layers, opt.norm,
