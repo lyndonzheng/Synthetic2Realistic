@@ -43,7 +43,7 @@ The outdooe Synthetic Dataset is [vKITTI](http://www.europe.naverlabs.com/Resear
 - Train a model with multi-domain datasets:
 
 ```
-python train.py train.py --name Outdoor_nyu_wsupervised --model wsupervised
+python train.py --name Outdoor_nyu_wsupervised --model wsupervised
 --img_source_file /dataset/Image2Depth31_KITTI/trainA_SYN80.txt
 --img_target_file /dataset/Image2Depth31_KITTI/trainA.txt
 --lab_source_file /dataset/Image2Depth31_KITTI/trainB_SYN80.txt
