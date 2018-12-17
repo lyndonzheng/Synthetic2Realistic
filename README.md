@@ -38,7 +38,7 @@ The indoor Synthetic Dataset renders from [SUNCG](http://suncg.cs.princeton.edu/
 The outdooe Synthetic Dataset is [vKITTI](http://www.europe.naverlabs.com/Research/Computer-Vision/Proxy-Virtual-Worlds) and outdoor Realistic dataset is [KITTI](http://www.cvlibs.net/datasets/kitti/)
 
 ## Training
-**Warning: The input sizes need to be muliples of 64. The feature GAN model needs to be change for different scale**
+**Warning: The input sizes need to be multiples of 64. The feature GAN model needs to be change for different scale**
 
 - Train a model with multi-domain datasets:
 
