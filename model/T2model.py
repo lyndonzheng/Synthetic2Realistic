@@ -98,6 +98,8 @@ class T2NetModel(BaseModel):
         return D_loss
 
     def backward_D_image(self):
+        network._freeze(self.net_s2t, self.net_img2task, self.net_f_D)
+        network._unfreeze(self.net_img_D)
         size = len(self.img_s2t)
         fake = []
         for i in range(size):
@@ -106,6 +108,8 @@ class T2NetModel(BaseModel):
         self.loss_img_D = self.backward_D_basic(self.net_img_D, real, fake)
 
     def backward_D_feature(self):
+        network._freeze(self.net_s2t, self.net_img2task, self.net_img_D)
+        network._unfreeze(self.net_f_D)
         self.loss_f_D = self.backward_D_basic(self.net_f_D, [self.lab_f_t], [self.lab_f_s])
 
     def foreward_G_basic(self, net_G, img_s, img_t):
@@ -131,6 +135,8 @@ class T2NetModel(BaseModel):
     def backward_synthesis2real(self):
 
         # image to image transform
+        network._freeze(self.net_img2task, self.net_img_D, self.net_f_D)
+        network._unfreeze(self.net_s2t)
         self.img_s2t, self.img_t2t, self.img_f_s, self.img_f_t, size = \
             self.foreward_G_basic(self.net_s2t, self.img_s, self.img_t)
 
@@ -154,6 +160,8 @@ class T2NetModel(BaseModel):
     def backward_translated2depth(self):
 
         # task network
+        network._freeze(self.net_img_D, self.net_f_D)
+        network._unfreeze(self.net_s2t, self.net_img2task)
         fake = self.net_img2task.forward(self.img_s2t[-1])
 
         size=len(fake)
@@ -175,13 +183,15 @@ class T2NetModel(BaseModel):
 
         self.loss_lab_s = task_loss * self.opt.lambda_rec_lab
 
-        total_loss =  self.loss_f_G + self.loss_lab_s
+        total_loss = self.loss_f_G + self.loss_lab_s
 
         total_loss.backward()
 
     def backward_real2depth(self):
 
         # image2depth
+        network._freeze(self.net_s2t, self.net_img_D, self.net_f_D)
+        network._unfreeze(self.net_img2task)
         fake = self.net_img2task.forward(self.img_t)
         size = len(fake)
 
@@ -192,7 +202,7 @@ class T2NetModel(BaseModel):
         img_real = task.scale_pyramid(self.img_t, size - 1)
         self.loss_lab_smooth = task.get_smooth_weight(self.lab_t_g, img_real, size-1) * self.opt.lambda_smooth
 
-        total_loss =  self.loss_lab_smooth
+        total_loss = self.loss_lab_smooth
 
         total_loss.backward()
 
