@@ -44,11 +44,7 @@ The outdooe Synthetic Dataset is [vKITTI](http://www.europe.naverlabs.com/Resear
 
 ```
 python train.py --name Outdoor_nyu_wsupervised --model wsupervised
-<<<<<<< HEAD
 --img_source_file /dataset/Image2Depth31_KITTI/trainA_SYN.txt
-=======
---img_source_file /dataset/Image2Depth31_KITTI/trainA_SYN80.txt
->>>>>>> bfea20422e81454510856cf1b9bfe98401b5ed87
 --img_target_file /dataset/Image2Depth31_KITTI/trainA.txt
 --lab_source_file /dataset/Image2Depth31_KITTI/trainB_SYN.txt
 --lab_target_file /dataset/Image2Depth31_KITTI/trainB.txt
